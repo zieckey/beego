@@ -92,17 +92,18 @@ func (rc *RedisCache) GetMulti(keys []string) []interface{} {
 	}
 	for i := 0; i < size; i++ {
 		if v, err := c.Receive(); err == nil {
-			rv = append(rv, v)
+			rv = append(rv, v.([]byte))
 		} else {
 			rv = append(rv, err)
 		}
 	}
+	return rv
 ERROR:
 	rv = rv[0:0]
 	for i := 0; i < size; i++ {
 		rv = append(rv, nil)
 	}
-	
+
 	return rv
 }
 
